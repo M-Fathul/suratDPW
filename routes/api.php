@@ -24,18 +24,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post(uri: '/login', action: [LoginController::class, 'store']);
+Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard/surat_masuk', [suratmasukController::class, 'index']);
-Route::post('/dashboard/surat_masuk/store', [suratmasukController::class, 'store']);
+Route::post('/surat_masuk/store', [suratmasukController::class, 'store']);
+Route::get('/surat-masuk', [SuratmasukController::class, 'apiIndex']);
 Route::get('/dashboard/surat_masuk/{id}/edit', [suratmasukController::class, 'edit']);
 Route::put('/dashboard/surat_masuk/{id}', [suratmasukController::class, 'update']);
 Route::delete('/dashboard/surat_masuk/{id}', [suratmasukController::class, 'destroy']);
 Route::put('/dashboard/disposisi/{id}', [suratmasukController::class, 'updatedisposisi']);
 
-Route::get('/dashboard/surat_keluar', [suratkeluarController::class, 'index']);
+Route::get('/surat_keluar', [suratkeluarController::class, 'apiindex']);
 Route::post('/dashboard/surat_keluar/store', [suratkeluarController::class, 'store']);
 Route::get('/dashboard/surat_keluar/{id}/edit', [suratkeluarController::class, 'edit']);
 Route::put('/dashboard/surat_keluar/{id}', [suratkeluarController::class, 'update']);

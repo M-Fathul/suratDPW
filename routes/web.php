@@ -23,10 +23,11 @@ Route::get('/', function () {
     return view('/login');
 });
 
-Route::get('/login', [LoginController::class, 'index'])->name('login');
-
+Route::get('/login', [LoginController::class, 'index'])->name('login'); 
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 route::get('/register', [RegisterController::class, 'index'])->name('register');
 
+Route::get('/dashboard/surat_masuk', [suratmasukController::class, 'index']);
 Route::get('/dashboard/surat_masuk/tambah', [suratmasukController::class, 'create']);
 Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::get('/dashboard/disposisi', [suratmasukController::class, 'indexdisposisi']);

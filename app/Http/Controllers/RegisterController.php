@@ -26,22 +26,40 @@ class RegisterController extends Controller
             'retype_password' => 'required|min:8|same:password',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator, 'register');
-        }
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator, 'register');
+        // }
 
         // if ($request->password != $request->retype_password) {
         //     Session::flash('register', 'Konfirmasi kata sandi salah!');
         //     return redirect()->back();
         // }
 
-        User::create([
+        // User::create([
+        //     'name' => $request->name,
+        //     'role_id' => $request->role_id,
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+        // ]);
+
+        //return redirect()->route('login');
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validasi gagal',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+    
+        $user = User::create([
             'name' => $request->name,
-            'role_id' => $request->role_id,
+            'role_id' => $request->role_id ?? null, // optional
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
-        return redirect()->route('login');
+    
+        return response()->json([
+            'message' => 'Registrasi berhasil',
+            'data' => $user
+        ], 201);
     }
 }

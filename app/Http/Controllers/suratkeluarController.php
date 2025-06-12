@@ -9,11 +9,25 @@ use Illuminate\Support\Facades\Auth;
 
 class suratkeluarController extends Controller
 {
+    public function getSuratKeluar()
+    {
+        return Suratkeluar::all();
+    }
+    
     public function index()
     {
-        $data = Suratkeluar::all();
+        $data = $this->getSuratKeluar();
         return view('surat_keluar.index', [
             'data' => $data,
+        ]);
+    }
+
+    public function apiindex()
+    {
+        $data = $this->getSuratKeluar();
+        return response()->json([
+            'message' => 'Data berhasil diambil',
+            'data' => $data
         ]);
     }
 

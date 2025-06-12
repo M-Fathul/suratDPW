@@ -9,12 +9,25 @@ use Illuminate\Support\Facades\Auth;
 
 class suratmasukController extends Controller
 {
-    public function index(){
-        $data = Suratmasuk::all();
-        return view('surat_masuk.index', [
-            'data' => $data,
-        ]);
-    }
+    public function getSuratMasukData()
+{
+    return Suratmasuk::all();
+}
+
+public function index()
+{
+    $data = $this->getSuratMasukData();
+    return view('surat_masuk.index', ['data' => $data]);
+}
+
+public function apiIndex()
+{
+    $data = $this->getSuratMasukData();
+    return response()->json([
+        'message' => 'Data berhasil diambil',
+        'data' => $data
+    ]);
+}
 
     function create(){
         return view('surat_masuk.create');
@@ -23,8 +36,17 @@ class suratmasukController extends Controller
     public function store(Request $request)
     {
 
-        Suratmasuk::create([
-            'email_user' =>  Auth::user()->email,
+        // Suratmasuk::create([
+        //     'email_user' =>  Auth::user()->email,
+        //     'Nomor_surat' => $request->Nomor_surat,
+        //     'pengirim' => $request->pengirim,
+        //     'penerima' => $request->penerima,
+        //     'deskripsi' => $request->deskripsi,
+        //     'tanggal_surat' => $request->tanggal_surat,
+        //     'tanggal_terima' => $request->tanggal_terima,
+        // ]);
+        $suratbaru = Suratmasuk::create([
+            'email_user' =>  $request->email_user,
             'Nomor_surat' => $request->Nomor_surat,
             'pengirim' => $request->pengirim,
             'penerima' => $request->penerima,
@@ -49,7 +71,11 @@ class suratmasukController extends Controller
             }
         }
 
-        return redirect('/dashboard/surat_masuk');
+        // return redirect('/dashboard/surat_masuk');
+        return response()->json([
+            'message' => 'Data berhasil disimpan',
+            'data' => $suratbaru
+        ]);
     }
 
     public function edit(string $id)
